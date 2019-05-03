@@ -1,0 +1,75 @@
+Spatial Filtering for Image Enhancement
+clear; close all; clc
+
+I = imread('zelda.tif');
+
+figure(1)
+set(1, 'Position', [867 722 849 385])
+subplot(121), imshow(I)
+title('Original Image');
+
+Noise Generation
+J = imnoise(I,'gaussian',0,0.005);
+
+figure(1)
+subplot(122), imshow(J)
+title('Gaussian noise');
+
+Average Filtering (3x3)
+h = fspecial('average',[3 3]);
+J1 = filter2(h,J)/255;
+
+figure(2)
+set(2, 'Position', [867 290 849 385])
+subplot(121), imshow(J)
+title('Gaussian noise');
+
+subplot(122), imshow(J1)
+title('Average Filtering (3x3)');
+
+Average Filtering (5x5)
+h = fspecial('average',[5 5]);
+J2 = filter2(h,J)/255;
+
+subplot(122), imshow(J2)
+title('Average filtering (5x5)');
+
+Salt & Pepper Noise
+J = imnoise(I,'salt & pepper',0.1);
+
+figure(1)
+subplot(121), imshow(I)
+title('Original');
+
+subplot(122), imshow(J)
+title('Salt and pepper noise');
+
+Median Filtering (3x3)
+J1 = medfilt2(J,[3,3]);
+
+figure(2)
+subplot(121), imshow(J)
+title('Salt and pepper noise');
+
+subplot(122), imshow(J1)
+title('Median Filtering (3x3)');
+
+Median Filtering (5x5)
+J2 = medfilt2(J,[5,5]);
+
+subplot(122), imshow(J2)
+title('Median filtering (5x5)');
+
+Image Sharpening
+I = imread('moon.tif');
+
+figure(1), clf
+subplot(121), imshow(I)
+title('Original')
+
+Unsharp Masking
+h = fspecial('unsharp');
+J = imfilter(I,h);
+
+subplot(122), imshow(J)
+title('Unsharp Masking')

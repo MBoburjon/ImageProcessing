@@ -1,0 +1,120 @@
+%% 2-D discrete Fourier transform
+clear; close all; clc
+
+x = -5:.1:5;
+y = -5:.1:5;
+
+%% 2-D rect function
+wx = 3;
+wy = 1;
+f = zeros(length(y),length(x));
+n1 = find(abs(x) <= wx/2);
+n2 = find(abs(y) <= wy/2);
+f(n1, n2) = 1;
+
+figure(1)
+set(1, 'Position', [867 722 849 385])
+subplot(1,2,1), mesh(x,y,f)
+title('rect(x,y)')
+xlabel('x'), ylabel('y')
+
+%%
+subplot(1,2,2), imshow(f)
+title('rect(x,y)')
+
+%% 2-D DFT of a rect function
+F = fft2(f);
+
+figure(2)
+set(2, 'Position', [867 290 849 385])
+subplot(1,2,1), mesh(x,y,abs(F'))
+title('2-D DFT of rect(x,y)')
+xlabel('u'), ylabel('v')
+
+%%
+subplot(1,2,2), imshow(abs(F/20))
+title('2-D DFT of rect(x,y)')
+xlabel('u'), ylabel('v')
+
+%% 2-D DFT of a rect function (fftshift)
+subplot(1,2,2), mesh(x,y,abs(fftshift(F)))
+title('2-D DFT of rect(x,y) - Center Shifting')
+xlabel('u'), ylabel('v')
+
+%%
+subplot(1,2,1), mesh(x,y,abs(fftshift(F)))
+title('2-D DFT of rect(x,y) - Center Shifting')
+xlabel('u'), ylabel('v')
+
+subplot(1,2,2), imshow(abs(fftshift(F))/20)
+title('2-D DFT of rect(x,y) - Center Shifting')
+xlabel('u'), ylabel('v')
+
+%% Separability of 2-D DFT
+F1 = fft(f);
+
+figure(1), clf
+subplot(1,2,1), imshow(abs(fftshift(F1,1))');
+title('1-D FFT of rect(x,y)')
+xlabel('u'), ylabel('v')
+
+%%
+F = fft(F1');
+
+subplot(1,2,2), imshow(abs(fftshift(F'))/20);
+title('2-D FFT of rect(x,y)')
+xlabel('u'), ylabel('v')
+
+%% Rotated 2-D rect function
+f1 = imrotate(f, -45, 'bilinear', 'crop');
+
+figure(2), clf
+subplot(1,2,1), mesh(x,y,f1)
+title('rotated rect(x,y)')
+xlabel('x'), ylabel('y')
+
+subplot(1,2,2), imshow(f1)
+title('rotated rect(x,y)')
+xlabel('x'), ylabel('y')
+
+%% 2-D DFT
+F1 = fft2(f1);
+
+figure(1)
+subplot(1,2,1), mesh(x,y,abs(fftshift(F1)))
+title('2-D DFT of rotated rect(x,y)')
+xlabel('u'), ylabel('v')
+
+subplot(1,2,2), imshow(abs(fftshift(F1))/20)
+title('2-D DFT of rotated rect(x,y)')
+xlabel('u'), ylabel('v')
+
+%% Comparison
+figure(3), clf
+
+subplot(2,2,1), imshow(f)
+title('rect(x,y)')
+
+subplot(2,2,2), imshow(abs(fftshift(F'))/20)
+title('2-D DFT of rect(x,y)')
+
+subplot(2,2,3), imshow(f1)
+title('rotated rect(x,y)')
+
+subplot(2,2,4), imshow(abs(fftshift(F1))/20)
+title('2-D DFT of rotated rect(x,y)')
+
+%% Additivity of DFT
+f2 = 0.5*f + 0.5*f1;
+F2 = fft2(f2);
+
+figure(1)
+subplot(1,2,1), imshow(f2)
+%subplot(1,2,1), mesh(x,y,abs(fftshift(F2)))
+title('f + f_{rotated}')
+xlabel('x'), ylabel('y')
+
+%figure(2)
+subplot(1,2,2), imshow(abs(fftshift(F2))/20)
+title('2-D DFT of f + f_{rotated}')
+xlabel('u'), ylabel('v')

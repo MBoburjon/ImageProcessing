@@ -1,0 +1,39 @@
+Image adjustment
+clear; close all; clc
+
+I = imread('pout.tif');
+
+figure(1)
+set(1, 'Position', [336 326 464 200])
+subplot(121), imshow(I), title('Original Image')
+
+Histogram
+figure(1)
+subplot(122), imhist(I), title('Histogram')
+axis tight
+
+J = imadjust(I);
+
+figure(2)
+set(2, 'Position', [334 46 464 189])
+subplot(121), imshow(J), title('Enhanced Image - Image Adjustment')
+
+Histogram
+figure(2)
+subplot(122), imhist(J), title('Histogram - Image Adjustment')
+axis tight
+
+K = imadjust(I,[0.3 0.7],[]);
+
+figure(1), clf
+subplot(121), imshow(I), title('Original Image')
+subplot(122), imshow(K), title('Image Adjustment [0.3,0.7]')
+
+Color image adjustment
+C1 = imread('football.jpg');
+
+figure(2), clf
+subplot(121), imshow(C1), title('Original Image')
+
+C2 = imadjust(C1,[.2 .3 0; .6 .7 1],[]);
+subplot(122), imshow(C2), title('Image Adjustment')

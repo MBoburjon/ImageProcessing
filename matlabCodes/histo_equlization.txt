@@ -1,0 +1,33 @@
+Image enhancement
+clear; close all; clc
+
+I = imread('tire.tif');
+
+figure(1)
+set(1, 'Position', [867 722 849 385])
+subplot(121), imshow(I)
+title('Original Image')
+
+Histogram
+subplot(122), imhist(I,64)
+title('Histogram')
+
+Histogram equalization
+J = histeq(I);
+
+figure(2)
+set(2, 'Position', [867 290 849 385])
+subplot(121), imshow(J)
+title('Histogram Equalized')
+
+Histogram
+subplot(122), imhist(J,64)
+title('Histogram')
+
+Histogram Comparison
+%figure(1)
+%subplot(121), imhist(I,64)
+%title('Original')
+
+%subplot(122), imhist(J,64)
+%title('Histogram Equalized')

@@ -1,0 +1,106 @@
+%% 2-D functions
+clear; close all; clc
+
+x = -5:.1:5;
+y = -5:.1:5;
+
+%% 2-D delta function
+f = zeros(length(x),length(y));
+n1 = find(x==0);
+n2 = find(y==0);
+f(n1,n2) = 1;
+
+figure(1)
+set(1, 'Position', [336 326 464 200])
+subplot(1,2,1), mesh(x,y,f)
+title('delta(x,y)')
+xlabel('x'), ylabel('y')
+
+%%
+subplot(1,2,2), imshow(log(abs(f)*20));
+title('delta(x,y)')
+xlabel('x'), ylabel('y')
+
+%% 2-D rect function
+wx = 1;
+wy = 1;
+f = zeros(length(y),length(x));
+n1 = find(abs(x) <= wx/2);
+n2 = find(abs(y) <= wy/2);
+f(n1, n2) = 1;
+
+figure(2)
+set(2, 'Position', [334 46 464 189])
+subplot(1,2,1), mesh(x,y,f)
+title('rect(x,y)')
+xlabel('x'), ylabel('y')
+
+%%
+subplot(1,2,2), imshow(log(abs(f)*20));
+title('rect(x,y)')
+xlabel('x'), ylabel('y')
+
+%% 2-D sinc function
+sx = sinc(wx*x);
+sy = sinc(wy*y);
+[x1,y1] = meshgrid(sx, sy);
+f = x1.*y1;
+
+figure(1), clf
+subplot(1,2,1), mesh(x,y,f)
+title('sinc(x,y)')
+xlabel('x'), ylabel('y')
+
+%%
+subplot(1,2,2), imshow(log(abs(f)*20));
+xlabel('x'), ylabel('y')
+
+%% 2-D Gaussian function
+[X,Y] = meshgrid(x,y);
+sigma2 = 1.2;
+r2 = X.^2 + Y.^2;
+f = exp(-(r2)/(2*sigma2));
+
+figure(2), clf
+subplot(1,2,1), mesh(x,y,f)
+title('Gaussian')
+xlabel('x'), ylabel('y')
+
+%%
+subplot(1,2,2), imshow(log(abs(f)*10));
+title('Gaussian')
+xlabel('x'), ylabel('y')
+
+%% 2-D circ function
+f = zeros(length(y),length(x));
+x1 = repmat(x,size(y'));
+y1 = repmat(y',size(x));
+[nx,ny] = find((x1.^2 + y1.^2) <= 1);
+for i=1:length(nx)
+   f(nx(i),ny(i)) = 1;
+end
+
+figure(1), clf
+subplot(1,2,1), mesh(x,y,f)
+title('circ(x,y)')
+xlabel('x'), ylabel('y')
+
+%%
+subplot(1,2,2), imshow(log(abs(f)*10));
+title('circ(x,y)')
+xlabel('x'), ylabel('y')
+
+%% 2-D jinc function
+[X,Y] = meshgrid(x,y);
+R = sqrt(X.^2+Y.^2) + eps;
+f = (besselj(1,pi*R))./(2*R);
+
+figure(2), clf
+subplot(1,2,1), mesh(x,y,f)
+title('jinc(u,v)')
+xlabel('x'), ylabel('y')
+
+%%
+subplot(1,2,2), imshow(log(abs(f)*20));
+title('jinc(u,v)')
+xlabel('x'), ylabel('y')

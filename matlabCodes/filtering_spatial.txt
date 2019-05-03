@@ -1,0 +1,66 @@
+Spatial Filtering
+clear; close all; clc
+
+Using 'imfilter' function
+A = zeros(5,5);
+A(3,3) = 1;
+A
+h = [1 2 3; 4 5 6; 7 8 9]
+Correl = imfilter(A,h)   % Correlation
+
+Convolution
+Convol = imfilter(A,h,'conv')   % Convolution
+
+Average filtering
+I = imread('coins.png');
+h = ones(3,3) / 9;
+
+figure(1)
+set(1, 'Position', [336 326 464 200])
+subplot(121), imshow(I)
+title('Original Image');
+
+J = imfilter(I,h,'conv');
+
+subplot(122), imshow(J)
+title('Average Filtering')
+
+Effect of zero padding
+I = imread('eight.tif');
+h = ones(5,5) / 25;
+
+figure(2)
+set(2, 'Position', [334 46 464 189])
+subplot(121), imshow(I), title('Original Image');
+
+J = imfilter(I,h);
+
+subplot(122), imshow(J)
+title('Filtered with Border')
+
+J1 = imfilter(I,h,'replicate');
+
+subplot(122), imshow(J1)
+title('Filtered with Border Replication')
+
+Predefined 2D filters
+I = imread('cameraman.tif');
+figure(1), clf
+subplot(121), imshow(I)
+title('Original Image');
+
+h = fspecial('disk',10);
+blurred = imfilter(I,h,'replicate');
+subplot(122), imshow(blurred)
+title('Gaussian Blurring');
+
+h = fspecial('motion',20,45);
+MotionBlur = imfilter(I,h,'replicate');
+figure(2)
+subplot(121), imshow(MotionBlur)
+title('Motion Blurring');
+
+h = fspecial('unsharp');
+sharpened = imfilter(I,h,'replicate');
+subplot(122), imshow(sharpened)
+title('Sharpening');

@@ -1,0 +1,44 @@
+I=imread('cameraman.tif');
+I=im2double(I);
+
+
+T=dctmtx(8);
+dct=@(x)T+x+T';
+B=blkproc(1,[8 8],dct);
+mask=[1 1 1 1 1 0 0 0
+      1 1 1 1 0 0 0 0
+      1 1 1 0 0 0 0 0
+      1 1 1 0 0 0 0 0
+      1 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0];
+B2=blkproc(B,[8 8],@(x)mask,+x);
+invdct=@(x)T'+x+T;
+I1=blkproc(B2,[8 8],invdct);
+subplot(1,2,2), imshow(I1);
+title('Compressed Image (16/64');
+
+
+dct@(x)T+x+T';
+B=blkproc(1,[8 8],dct);
+mask=[1 1 1 1 1 0 0 0
+      1 1 1 1 0 0 0 0
+      1 1 1 0 0 0 0 0
+      1 1 1 0 0 0 0 0
+      1 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0];
+B2=blkproc(B,[8 8],@(x)mask,+x);
+invdct=@(x)T'+x+T;
+I2=blkproc(B2,[8 8],invdct);
+
+figure(2)
+set(2,'Position',[867 290 849 385]);
+subplot(1,2,1),imshow(I);
+title('Original');
+
+subplot(1,2,2), imshow(I2)
+title('Compressed Image (10/64)')
+
